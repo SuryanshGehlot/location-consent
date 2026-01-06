@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Location Consent</title>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   <h2>Share your location</h2>
@@ -12,30 +12,36 @@
   <p id="status"></p>
 
   <script>
-    (function(){
-      emailjs.init("ArgrqoQ0JW-cMnfd5");
-    })();
+    emailjs.init("ArgrqoQ0JW-cMnfd5"); // public key
 
     function sendLocation() {
+      const status = document.getElementById("status");
+
       if (!navigator.geolocation) {
-        document.getElementById("status").innerText = "Geolocation not supported";
+        status.innerText = "Geolocation not supported";
         return;
       }
 
-      navigator.geolocation.getCurrentPosition(function(position) {
-        emailjs.send("service_dd24sm9", "template_yoln01m", {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }).then(function() {
-          document.getElementById("status").innerText =
-            "Location sent successfully!";
-        });
-      }, function() {
-        document.getElementById("status").innerText =
-          "Location permission denied.";
-      });
+      status.innerText = "Getting location...";
+
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          emailjs.send("service_dd24sm9", "template_yoln01m", {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          })
+          .then(function () {
+            status.innerText = "✅ Location sent successfully!";
+          })
+          .catch(function (error) {
+            status.innerText = "❌ Email failed: " + error.text;
+          });
+        },
+        function (error) {
+          status.innerText = "❌ Location permission denied";
+        }
+      );
     }
   </script>
 </body>
 </html>
-
