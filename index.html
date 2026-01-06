@@ -23,7 +23,7 @@
       }
 
       navigator.geolocation.getCurrentPosition(function(position) {
-        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        emailjs.send("service_dd24sm9", "template_yoln01m", {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         }).then(function() {
@@ -38,3 +38,4 @@
   </script>
 </body>
 </html>
+
